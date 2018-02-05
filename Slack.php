@@ -1,10 +1,16 @@
 <?php
 
-namespace VGCore\network;
+namespace OpenSource;
+
+/*
+This was coded by Lewis Brindley under the VGDevelopment Organisation.
+By the MIT License, you can do whatever you want with this file with no restrictions unless implied in the License.
+You cannot however remove this commented in citation of the authorship of the file. You must add this to any file using code from this file.
+*/
 
 class Slack {
     
-    const URL = "https://hooks.slack.com/services/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";
+    const URL = "Put your URL here";
     const HEADER = "Content-Type: application/x-www-form-urlencoded";
     const DEFAULT_CHANNEL = "bot";
     
