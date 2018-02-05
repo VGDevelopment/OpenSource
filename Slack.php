@@ -1,20 +1,14 @@
 <?php
 
-namespace OpenSource; // replace your namespace here please
-
-/*
-This was coded by Lewis Brindley under the VGDevelopment Organisation.
-By the MIT License, you can do whatever you want with this file with no restrictions unless implied in the License.
-You cannot however remove this commented in citation of the authorship of the file. You must add this to any file using code from this file.
-*/
+namespace VGCore\network;
 
 class Slack {
     
-    const URL = "---"; // Replace --- with your URL
+    const URL = "https://hooks.slack.com/services/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";
     const HEADER = "Content-Type: application/x-www-form-urlencoded";
-    const DEFAULT_CHANNEL = "bot"; // Replace "bot" with the channel you authenticated the webhook URL for
+    const DEFAULT_CHANNEL = "bot";
     
-    public static function convertStringToSlackJSON(string $string): string {
+    private static function convertStringToSlackJSON(string $string): string {
         $replace = [
             '"' => "\""   
         ];
@@ -22,14 +16,21 @@ class Slack {
         return $slackjson;
     }
     
-    public static function sendTextMessage(string $text, $channel = self::DEFAULT_CHANNEL): bool { // you can also send to different channels. Replace the $channel param in running method with the channel name string
+    /**
+     * Sends text messages to a slack channel. Default parameter for $channel is set to self::DEFAULT_CHANNEL . 
+     *
+     * @param string $text
+     * @param string $channel
+     * @return boolean
+     */
+    public static function sendTextMessage(string $text, string $channel = self::DEFAULT_CHANNEL): bool {
         $post = '"text": "' . $text . '"';
         $string = self::convertStringToSlackJSON($post);
         $config = self::makeConfig($string, $channel);
         return self::sendCURLRequest($config);
     }
     
-    public static function makeConfig(string $post, string $channel): array {
+    private static function makeConfig(string $post, string $channel): array {
         return [
             "URL" => self::URL,
             "Header" => self::HEADER,
@@ -38,7 +39,7 @@ class Slack {
         ];
     }
     
-    public static function sendCURLRequest(array $config): bool {
+    private static function sendCURLRequest(array $config): bool {
         $format = self::formatEOL([$config["Post"], "---", $config["Channel"]]);
         $package = self::makeJSONPackage($format);
         $curl = curl_init();
@@ -58,13 +59,13 @@ class Slack {
         return false;
     }
     
-    public static function makeJSONPackage(string $convert): string {
+    private static function makeJSONPackage(string $convert): string {
         return "{
                     " . $convert .
                 "}";
     }
     
-    public static function formatEOL(array $los): string {
+    private static function formatEOL(array $los): string {
         $string = implode($los);
         $eol = [
             "---" => ",
