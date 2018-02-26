@@ -1,0 +1,3 @@
+[submodule "VirtualGameAPI"]
+	path = VirtualGameAPI
+	url = https://github.com/VGDevelopment/VirtualGameAPI
